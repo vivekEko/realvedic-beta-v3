@@ -22,6 +22,7 @@ import homePageStatusAtom from "./recoil/misc/homePageStatusAtom";
 import Admin from "./pages/Admin";
 import AdminProducts from "./components/adminPage/productsPage/AdminProducts";
 import AdminSidebar from "./components/adminPage/adminSidebar/AdminSidebar";
+import ProductDetails from "./components/adminPage/productsDetailPage/ProductDetails";
 
 function App() {
   //   Global variable
@@ -42,6 +43,12 @@ function App() {
     window.scrollTo(0, 0);
   }, [path]);
 
+  // testing
+  useEffect(() => {
+    console.log("adminIsActive");
+    console.log(adminIsActive);
+  }, [adminIsActive]);
+
   return (
     <div className="cursor-default font-helveticaRegular relative ">
       {!adminIsActive && (
@@ -57,7 +64,7 @@ function App() {
         </div>
       )}
 
-      <div className={` ${adminIsActive ? " flex" : "block "} `}>
+      <div className={` ${adminIsActive ? " flex  " : "block "}   `}>
         {adminIsActive && <AdminSidebar />}
         {/* Routes */}
         <Routes>
@@ -74,6 +81,11 @@ function App() {
           <Route exact path="/admin/" element={<Admin />} /> //admin dashboard
           component here
           <Route exact path="/admin/products" element={<AdminProducts />} />
+          <Route
+            exact
+            path="/admin/products/productDetails"
+            element={<ProductDetails />}
+          />
         </Routes>
       </div>
     </div>

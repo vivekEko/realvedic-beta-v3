@@ -15,10 +15,22 @@ const AdminHeader = () => {
           <p className="text-[#8a8a8a] text-sm">Total: 16 </p>
         </div>
 
-        <div className="flex justify-between items-center gap-4 ">
-          <img src={exportIcon} alt="export" className="w-5 lg:w-6" />
-          <img src={deleteIcon} alt="delete" className="w-5 lg:w-6" />
-          <img src={addIcon} alt="add" className="w-5 lg:w-6" />
+        <div className="flex justify-between items-center gap-4 md:gap-5 lg:gap-6 ">
+          <img
+            src={exportIcon}
+            alt="export"
+            className="w-5 md:w-6 lg:w-7 cursor-pointer"
+          />
+          <img
+            src={deleteIcon}
+            alt="delete"
+            className="w-5 md:w-6 lg:w-7 cursor-pointer"
+          />
+          <img
+            src={addIcon}
+            alt="add"
+            className="w-5 md:w-6 lg:w-7 cursor-pointer"
+          />
         </div>
       </div>
     </header>

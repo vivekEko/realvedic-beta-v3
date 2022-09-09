@@ -4,17 +4,12 @@ import React from "react";
 // State Management (Recoil JS)
 import { useRecoilState } from "recoil";
 import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
-// components
-import AdminProductHeader from "../productsPage/AdminProductHeader";
-import ProductList from "./ProductList";
-import ProductSearchAndFilter from "./ProductSearchAndFilter";
 
-const AdminProducts = () => {
+const ProductDetails = () => {
   // Global variables
   const [adminSidebarIsOpen, setAdminSidebarIsOpen] = useRecoilState(
     adminSidebarStatusAtom
   );
-
   return (
     <div
       className={` p-5 w-full transition-all duration-500  h-screen overflow-hidden ${
@@ -23,13 +18,9 @@ const AdminProducts = () => {
           : "pl-[90px] md:pl-[270px]"
       } `}
     >
-      <AdminProductHeader />
-      <div>
-        <ProductSearchAndFilter />
-        <ProductList />
-      </div>
+      <h1>This is product details</h1>
     </div>
   );
 };
 
-export default AdminProducts;
+export default ProductDetails;

@@ -12,9 +12,15 @@ import account_icon from "../../../assets/img/adminPage/sidebar/account_icon.svg
 import content_icon from "../../../assets/img/adminPage/sidebar/content_icon.svg";
 import analytics_icon from "../../../assets/img/adminPage/sidebar/analytics_icon.svg";
 
+// State Mangemnet (Recoil JS)
+import { useRecoilState } from "recoil";
+import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
+
 const AdminSidebar = () => {
-  // local variables
-  const [adminSidebarIsOpen, setAdminSidebarIsOpen] = useState(true);
+  // Global variables
+  const [adminSidebarIsOpen, setAdminSidebarIsOpen] = useRecoilState(
+    adminSidebarStatusAtom
+  );
 
   // Sidebar link Names
   const sidebarLinkNames = [
@@ -46,13 +52,13 @@ const AdminSidebar = () => {
 
   return (
     <div
-      className={`bg-[#fcedd1] h-screen  overflow-x-hidden fixed top-0 bottom-0 left-0 md:static ${
+      className={`bg-[#fcedd1] h-screen  overflow-x-hidden fixed top-0 bottom-0 left-0 z-50 ${
         adminSidebarIsOpen
           ? " transition-all duration-500 max-w-[250px] w-[50%] "
-          : " min-w-[70px] max-w-[70px] transition-all duration-500 w-[10%]"
+          : " min-w-[70px] max-w-[70px] transition-all duration-500 w-[50%] md:transition-all  md:max-w-[250px] md:w-[50%] "
       } `}
     >
-      <div className="py-5 ">
+      <div className="py-5">
         {/* Logo */}
         <div
           className="cursor-pointer min-h-[80px] w-[80%] mx-auto"
@@ -76,7 +82,7 @@ const AdminSidebar = () => {
                     src={data?.iconName}
                     alt="dashboard"
                     className={`max-w-[25px] transition-all duration-500 ${
-                      adminSidebarIsOpen ? "ml-0" : "ml-5"
+                      adminSidebarIsOpen ? "ml-0 " : "ml-5 md:ml-0"
                     } `}
                   />
                   <div
