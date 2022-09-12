@@ -25,15 +25,6 @@ const ProductList = () => {
     });
   }
 
-  //   testing
-  useEffect(() => {
-    console.log("selectedProducts:");
-    console.log(selectedProducts);
-    // productListData?.map((data) => {
-    //   return selectedProducts?.push(data?.product_name);
-    // });
-  }, [selectedProducts]);
-
   const productListData = [
     {
       product_name: "Rasam Powder",
@@ -287,10 +278,10 @@ const ProductList = () => {
                   <h1>{data?.variants}</h1>
                 </div>
                 <div className="  p-3 py-5 flex items-center border-b">
-                  <h1>{data?.unit_price}</h1>
+                  <h1>₹ {data?.unit_price}</h1>
                 </div>
                 <div className="  p-3 py-5 flex items-center border-b">
-                  <h1>{data?.stock}</h1>
+                  <h1>{data?.stock} pcs</h1>
                 </div>
                 <div className={` py-5 flex items-center  border-b `}>
                   <div
@@ -313,7 +304,7 @@ const ProductList = () => {
               </div>
             );
           })}
-          <div className="p-10 w-full text-center text-gray-500">
+          <div className="p-10 w-full text-center text-[#adadad]">
             No more products
           </div>
         </div>

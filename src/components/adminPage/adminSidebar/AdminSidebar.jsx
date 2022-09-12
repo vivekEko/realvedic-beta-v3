@@ -1,5 +1,5 @@
 // React
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 // Assets
@@ -15,6 +15,7 @@ import analytics_icon from "../../../assets/img/adminPage/sidebar/analytics_icon
 // State Mangemnet (Recoil JS)
 import { useRecoilState } from "recoil";
 import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
+import { NavLink } from "react-router-dom";
 
 const AdminSidebar = () => {
   // Global variables
@@ -22,33 +23,48 @@ const AdminSidebar = () => {
     adminSidebarStatusAtom
   );
 
+  // loacl variables
+  const [activeLink, setActiveLink] = useState();
+
   // Sidebar link Names
   const sidebarLinkNames = [
     {
       linkName: "Dashboard",
       iconName: dashboard_icon,
+      link_path: "/admin",
     },
     {
       linkName: "Orders",
       iconName: order_icon,
+      link_path: "/admin/orders",
     },
     {
       linkName: "Products",
       iconName: product_icon,
+      link_path: "/admin/products",
     },
     {
       linkName: "Accounts",
       iconName: account_icon,
+      link_path: "/admin/accounts",
     },
     {
       linkName: "Contents",
       iconName: content_icon,
+      link_path: "/admin/contents",
     },
     {
       linkName: "Analytics",
       iconName: analytics_icon,
+      link_path: "/admin/analytics",
     },
   ];
+
+  // testing
+  useEffect(() => {
+    console.log("activeLink:");
+    console.log(activeLink);
+  }, [activeLink]);
 
   return (
     <div
@@ -73,24 +89,43 @@ const AdminSidebar = () => {
           {sidebarLinkNames?.map((data, index) => {
             return (
               <li key={index} className="relative group mb-5">
-                <div className="h-[35px] w-[5px] rounded-lg bg-[#c57963] absolute right-0 top-0 bottom-0 group-hover:visible invisible transition"></div>
+                <NavLink
+                  to={data?.link_path}
+                  // className={({ isActive }) =>
+                  //   isActive
+                  //     ? " py-2 cursor-pointer text-[#fbd109]"
+                  //     : " py-2 cursor-pointer  "
+                  // }
 
-                <div
-                  className={`flex  py-1 items-center w-[80%] mx-auto  gap-5 justify-between min-w-[150px] cursor-pointer`}
+                  className={({ isActive }) =>
+                    isActive ? setActiveLink(data?.linkName) : ""
+                  }
                 >
-                  <img
-                    src={data?.iconName}
-                    alt="dashboard"
-                    className={`max-w-[25px] transition-all duration-500 ${
-                      adminSidebarIsOpen ? "ml-0 " : "ml-5 md:ml-0"
-                    } `}
-                  />
                   <div
-                    className={` transition-all duration-500 text-[#545454] group-hover:text-black`}
+                    className={`h-[35px] w-[5px] rounded-lg bg-[#c57963] absolute right-0 top-0 bottom-0 ${
+                      activeLink === data?.linkName
+                        ? "group-hover:visible"
+                        : "invisible"
+                    }   transition`}
+                  ></div>
+
+                  <div
+                    className={`flex  py-1 items-center w-[80%] mx-auto  gap-5 justify-between min-w-[150px] cursor-pointer`}
                   >
-                    {data?.linkName}
+                    <img
+                      src={data?.iconName}
+                      alt="dashboard"
+                      className={`max-w-[25px] transition-all duration-500 ${
+                        adminSidebarIsOpen ? "ml-0 " : "ml-5 md:ml-0"
+                      } `}
+                    />
+                    <div
+                      className={` transition-all duration-500 text-[#545454] group-hover:text-black`}
+                    >
+                      {data?.linkName}
+                    </div>
                   </div>
-                </div>
+                </NavLink>
               </li>
             );
           })}

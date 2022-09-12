@@ -4,6 +4,8 @@ import React from "react";
 // State Management (Recoil JS)
 import { useRecoilState } from "recoil";
 import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
+import AdminProductsDetailHeader from "./AdminProductsDetailHeader";
+import ProductDetailsEditForm from "./ProductDetailsEditForm";
 
 const ProductDetails = () => {
   // Global variables
@@ -18,7 +20,8 @@ const ProductDetails = () => {
           : "pl-[90px] md:pl-[270px]"
       } `}
     >
-      <h1>This is product details</h1>
+      <AdminProductsDetailHeader />
+      <ProductDetailsEditForm />
     </div>
   );
 };
