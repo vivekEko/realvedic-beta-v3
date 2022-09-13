@@ -39,15 +39,8 @@ function App() {
   useEffect(() => {
     setHomeIsActive(path == "/" ? true : false);
     setAdminIsActive(path?.includes("admin") ? true : false);
-
     window.scrollTo(0, 0);
   }, [path]);
-
-  // testing
-  useEffect(() => {
-    console.log("adminIsActive");
-    console.log(adminIsActive);
-  }, [adminIsActive]);
 
   return (
     <div className="cursor-default font-helveticaRegular relative ">

@@ -15,7 +15,7 @@ import analytics_icon from "../../../assets/img/adminPage/sidebar/analytics_icon
 // State Mangemnet (Recoil JS)
 import { useRecoilState } from "recoil";
 import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const AdminSidebar = () => {
   // Global variables
@@ -25,6 +25,15 @@ const AdminSidebar = () => {
 
   // loacl variables
   const [activeLink, setActiveLink] = useState();
+
+  // detecting current path
+  const location = useLocation();
+  const path = location.pathname;
+
+  // Storing active path name in variables
+  useEffect(() => {
+    setActiveLink(path);
+  }, [path]);
 
   // Sidebar link Names
   const sidebarLinkNames = [
@@ -42,6 +51,7 @@ const AdminSidebar = () => {
       linkName: "Products",
       iconName: product_icon,
       link_path: "/admin/products",
+      sub_link: "/admin/products/productDetails",
     },
     {
       linkName: "Accounts",
@@ -59,12 +69,6 @@ const AdminSidebar = () => {
       link_path: "/admin/analytics",
     },
   ];
-
-  // testing
-  useEffect(() => {
-    console.log("activeLink:");
-    console.log(activeLink);
-  }, [activeLink]);
 
   return (
     <div
@@ -89,21 +93,11 @@ const AdminSidebar = () => {
           {sidebarLinkNames?.map((data, index) => {
             return (
               <li key={index} className="relative group mb-5">
-                <NavLink
-                  to={data?.link_path}
-                  // className={({ isActive }) =>
-                  //   isActive
-                  //     ? " py-2 cursor-pointer text-[#fbd109]"
-                  //     : " py-2 cursor-pointer  "
-                  // }
-
-                  className={({ isActive }) =>
-                    isActive ? setActiveLink(data?.linkName) : ""
-                  }
-                >
+                <NavLink to={data?.link_path}>
                   <div
                     className={`h-[35px] w-[5px] rounded-lg bg-[#c57963] absolute right-0 top-0 bottom-0 ${
-                      activeLink === data?.linkName
+                      activeLink === data?.link_path ||
+                      activeLink === data?.sub_link
                         ? "group-hover:visible"
                         : "invisible"
                     }   transition`}

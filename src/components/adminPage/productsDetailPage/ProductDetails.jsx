@@ -21,7 +21,10 @@ const ProductDetails = () => {
       } `}
     >
       <AdminProductsDetailHeader />
-      <ProductDetailsEditForm />
+      <div className="flex flex-col md:flex-row gap-5">
+        <ProductDetailsEditForm />
+        <ProductDetailsEditForm />
+      </div>
     </div>
   );
 };
