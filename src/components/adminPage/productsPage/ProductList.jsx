@@ -1,27 +1,28 @@
 // react
 import React, { useEffect, useState } from "react";
+// routing
+import { Link } from "react-router-dom";
 
 // Media assets
 import image from "../../../assets/img/productPage/carousel/product1.svg";
 
 // State Management (Recoil JS)
 import { useRecoilState } from "recoil";
+import SearchInputAtom from "../../../recoil/adminPage/productPage/SearchInputAtom";
 import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
-import { Link } from "react-router-dom";
 
-const ProductList = () => {
-  // variables
-  const [selectedProducts, setSelectedProducts] = useState([]);
-
+const ProductList = (props) => {
   // Global variables
-  const [adminSidebarIsOpen, setAdminSidebarIsOpen] = useRecoilState(
-    adminSidebarStatusAtom
-  );
+  const [adminSidebarIsOpen] = useRecoilState(adminSidebarStatusAtom);
+  const [searchInputs, setSearchInputs] = useRecoilState(SearchInputAtom);
+
+  // local variables
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
   // Function to remove selected item from an array
   function arrayRemove(arr, value) {
     return arr.filter(function (geek) {
-      return geek != value;
+      return geek !== value;
     });
   }
 
@@ -207,11 +208,9 @@ const ProductList = () => {
     <div>
       {/* Heading */}
       <div
-        className={`relative overflow-x-scroll w-[80vw] h-[80vh]  overflow-y-scroll   mx-auto  py-5 ${
-          !adminSidebarIsOpen ? "sm:w-[85vw]" : "sm:w-[85vw]"
-        } `}
+        className={`relative overflow-x-scroll w-[100%] h-[80vh]  overflow-y-scroll   mx-auto  py-5  `}
       >
-        <div className="transition-all sticky  -top-5 bg-white grid justify-between grid-cols-[30px_minmax(300px,1fr)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)]     ">
+        <div className="transition-all sticky  -top-5 bg-white grid justify-between grid-cols-[30px_minmax(300px,1fr)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)]     ">
           <div className="  flex justify-center items-center border-b">
             <input type="checkbox" />
           </div>
@@ -222,11 +221,9 @@ const ProductList = () => {
             <h1 className="text-gray-500">Category</h1>
           </div>
           <div className="  p-3 border-b bg-white">
-            <h1 className="text-gray-500">Variant</h1>
+            <h1 className="text-gray-500">HSN</h1>
           </div>
-          <div className="  p-3 border-b bg-white">
-            <h1 className="text-gray-500">Unit Price</h1>
-          </div>
+
           <div className="  p-3 border-b bg-white">
             <h1 className="text-gray-500">Stock</h1>
           </div>
@@ -236,74 +233,101 @@ const ProductList = () => {
         </div>
 
         <div className="">
-          {productListData?.map((data, index) => {
-            return (
-              <div
-                key={index}
-                className=" grid justify-between grid-cols-[30px_minmax(300px,1fr)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)]  "
-              >
-                <div className="  flex justify-center items-center border-b">
-                  <input
-                    type="checkbox"
-                    onClick={() => {
-                      if (selectedProducts?.includes(data?.product_name)) {
-                        setSelectedProducts((selectedProducts) =>
-                          arrayRemove(selectedProducts, data?.product_name)
-                        );
-                      } else {
-                        setSelectedProducts((selectedProducts) => [
-                          ...selectedProducts,
-                          data?.product_name,
-                        ]);
-                      }
-                    }}
-                  />
-                </div>
-                <Link to="/admin/products/productDetails">
-                  <div className=" p-3 py-5 flex items-center gap-3 border-b group">
+          {props?.apiData
+            ?.filter((filtered_value) => {
+              if (searchInputs === "") {
+                return filtered_value;
+              } else if (
+                filtered_value?.product_name
+                  ?.toLowerCase()
+                  ?.includes(searchInputs?.toLowerCase())
+              ) {
+                return {
+                  filtered_value,
+                };
+              }
+            })
+            ?.map((data, index) => {
+              return (
+                <div
+                  key={index}
+                  className=" grid justify-between  grid-cols-[30px_minmax(300px,1fr)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)_minmax(150px,200px)] "
+                >
+                  <div className="  flex justify-center items-center border-b p-3 py-5">
+                    <input
+                      type="checkbox"
+                      onClick={() => {
+                        if (selectedProducts?.includes(data?.product_name)) {
+                          setSelectedProducts((selectedProducts) =>
+                            arrayRemove(selectedProducts, data?.product_name)
+                          );
+                        } else {
+                          setSelectedProducts((selectedProducts) => [
+                            ...selectedProducts,
+                            data?.product_name,
+                          ]);
+                        }
+                      }}
+                    />
+                  </div>
+                  <Link
+                    className=" p-3 py-5 flex items-center gap-3 border-b group"
+                    to="/admin/products/productDetails"
+                  >
                     <img
-                      src={image}
+                      src={process.env.REACT_APP_BASE_LINK + "/" + data?.image}
                       alt=""
                       className="w-[50px] aspect-square"
                     />
                     <h1 className="group-hover:underline underline-offset-4 transition-all">
                       {data?.product_name}
                     </h1>
+                  </Link>
+                  <div className="  p-3 py-5 flex items-center border-b">
+                    <h1>{data?.category}</h1>
                   </div>
-                </Link>
-                <div className="  p-3 py-5 flex items-center border-b">
-                  <h1>{data?.category}</h1>
-                </div>
-                <div className="  p-3 py-5 flex items-center border-b">
-                  <h1>{data?.variants}</h1>
-                </div>
-                <div className="  p-3 py-5 flex items-center border-b">
-                  <h1>₹ {data?.unit_price}</h1>
-                </div>
-                <div className="  p-3 py-5 flex items-center border-b">
-                  <h1>{data?.stock} pcs</h1>
-                </div>
-                <div className={` py-5 flex items-center  border-b `}>
-                  <div
-                    className={`p-2 rounded-full flex gap-2 items-center w-[120px]   ${
-                      data?.status === "Out of stock"
-                        ? "bg-[#a7090913] text-[#a70909]"
-                        : "bg-[#1dff1517] text-[#00ac69]"
-                    } `}
-                  >
+                  <div className="  p-3 py-5 flex items-center border-b">
+                    <h1>{data?.hsn}</h1>
+                  </div>
+
+                  <div className="  p-3 py-5 flex items-center border-b">
+                    <h1>
+                      <span>{data?.total_stock}</span>{" "}
+                      <span
+                        style={{
+                          display:
+                            data?.varients?.split("|")?.length > 1
+                              ? "inline"
+                              : "none",
+                        }}
+                      >
+                        out of {data?.varients?.split("|")?.length} varients
+                      </span>
+                    </h1>
+                  </div>
+                  <div className={` py-5 flex items-center  border-b `}>
                     <div
-                      className={` ${
-                        data?.status === "Out of stock"
-                          ? "bg-[#a70909]"
-                          : "bg-[#00ac69] "
-                      }  h-[8px] w-[8px] rounded-full`}
-                    ></div>{" "}
-                    <h1 className=""> {data?.status}</h1>
+                      className={`p-2 rounded-full flex gap-2 items-center w-[120px]   ${
+                        data?.total_stock <= 0
+                          ? "bg-[#a7090913] text-[#a70909]"
+                          : "bg-[#1dff1517] text-[#00ac69]"
+                      } `}
+                    >
+                      <div
+                        className={` ${
+                          data?.total_stock <= 0
+                            ? "bg-[#a70909]"
+                            : "bg-[#00ac69] "
+                        }  h-[8px] w-[8px] rounded-full`}
+                      ></div>{" "}
+                      <h1 className="">
+                        {data?.total_stock <= 0 ? "Out of stock" : "in stock"}
+                      </h1>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
           <div className="p-10 w-full text-center text-[#adadad]">
             No more products
           </div>

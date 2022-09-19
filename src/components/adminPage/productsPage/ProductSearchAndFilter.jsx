@@ -4,11 +4,24 @@ import React, { useEffect, useState } from "react";
 // media assets
 import search from "../../../assets/img/adminPage/productPage/searchIcon.svg";
 import arrow from "../../../assets/img/adminPage/productPage/bottom_arrow.svg";
+import { useRecoilState } from "recoil";
+import SearchInputAtom from "../../../recoil/adminPage/productPage/SearchInputAtom";
 
 const ProductSearchAndFilter = () => {
+  // Global variables
+  const [, setSearchInputs] = useRecoilState(SearchInputAtom);
+
   // Local variables
   const [filterIsOpen, setFilterIsOpen] = useState(false);
-  const [selectedProductFilters, setSelectedProductFilters] = useState([]);
+  const [selectedProductFilters, setSelectedProductFilters] = useState();
+  const [selectedStatus, setSelectedStatus] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedStock, setSelectedStock] = useState([]);
+
+  useEffect(() => {
+    console.log("selectedProductFilters:");
+    console.log(selectedProductFilters);
+  }, [selectedProductFilters]);
 
   // Function to remove selected item from an array
   function arrayRemove(arr, value) {
@@ -16,6 +29,12 @@ const ProductSearchAndFilter = () => {
       return geek != value;
     });
   }
+
+  // testing
+  useEffect(() => {
+    console.log("selectedProductFilters:");
+    console.log(selectedProductFilters);
+  }, [selectedProductFilters]);
 
   const filterData = [
     {
@@ -52,7 +71,8 @@ const ProductSearchAndFilter = () => {
         <input
           type="text"
           placeholder="Search products"
-          className="bg-gray-50 py-2 outline-none border-0 placeholder-gray-300 text-sm w-full"
+          className="bg-gray-50 py-2 outline-none border-0 placeholder-gray-300 text-sm w-full "
+          onChange={(e) => setSearchInputs(e.target.value)}
         />
       </div>
 
@@ -78,80 +98,161 @@ const ProductSearchAndFilter = () => {
           } absolute top-[100%] right-0  w-[300px] py-2 z-50`}
         >
           <div className=" border-gray-50 p-5 rounded-md bg-gray-50 shadow-xl">
-            {filterData?.map((data, index) => {
-              return (
-                <div
-                  key={index}
-                  className={`flex gap-5 py-4  ${
-                    index === 1 ? "border-y" : ""
-                  } `}
-                >
-                  <div className="flex-[0.3]">
-                    <h1 className="text-gray-600 text-base">
-                      {data?.filterName}
-                    </h1>
-                  </div>
-                  <div className="flex-[0.7]  ">
-                    {data?.filterOptions?.map((filters, idx) => {
-                      return (
-                        <div
-                          key={idx}
-                          className="p-1  mb-1 w-fit cursor-pointer flex gap-2"
-                          onClick={() => {
-                            if (selectedProductFilters?.includes(filters)) {
-                              setSelectedProductFilters(
-                                (selectedProductFilters) =>
-                                  arrayRemove(selectedProductFilters, filters)
-                              );
-                            } else {
-                              setSelectedProductFilters(
-                                (selectedProductFilters) => [
-                                  ...selectedProductFilters,
-                                  filters,
-                                ]
-                              );
-                            }
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            name={filters}
-                            value={filters}
-                            checked={
-                              selectedProductFilters?.includes(filters)
-                                ? true
-                                : false
-                            }
-                            onChange={() => {
-                              if (selectedProductFilters?.includes(filters)) {
-                                setSelectedProductFilters(
-                                  (selectedProductFilters) =>
-                                    arrayRemove(selectedProductFilters, filters)
-                                );
-                              } else {
-                                setSelectedProductFilters(
-                                  (selectedProductFilters) => [
-                                    ...selectedProductFilters,
-                                    filters,
-                                  ]
-                                );
-                              }
-                            }}
-                          />
-                          <h3 className={`text-sm  text-gray-500 `}>
-                            {filters}
-                          </h3>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
+            {/* Stock */}
+            <div className="flex gap-5 py-4  border-b ">
+              <div className="flex-[0.3]">
+                <h1 className="text-gray-600 text-base">
+                  {filterData[0]?.filterName}
+                </h1>
+              </div>
+              <div className="flex-[0.7]  ">
+                {filterData[0]?.filterOptions?.map((filters, idx) => {
+                  return (
+                    <div
+                      key={idx}
+                      className="p-1  mb-1 w-fit cursor-pointer flex gap-2"
+                      onClick={() => {
+                        if (selectedStock?.includes(filters)) {
+                          setSelectedStock([]);
+                        } else {
+                          setSelectedStock(filters);
+                        }
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        name={filters}
+                        value={filters}
+                        checked={selectedStock === filters ? true : false}
+                        onChange={() => {
+                          if (selectedStock?.includes(filters)) {
+                            setSelectedStock([]);
+                          } else {
+                            setSelectedStock(filters);
+                          }
+                        }}
+                      />
+                      <h3 className={`text-sm  text-gray-500 `}>{filters}</h3>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Category */}
+            <div className="flex gap-5 py-4  border-b ">
+              <div className="flex-[0.3]">
+                <h1 className="text-gray-600 text-base">
+                  {filterData[1]?.filterName}
+                </h1>
+              </div>
+              <div className="flex-[0.7]  ">
+                {filterData[1]?.filterOptions?.map((filters, idx) => {
+                  return (
+                    <div
+                      key={idx}
+                      className="p-1  mb-1 w-fit cursor-pointer flex gap-2"
+                      onClick={() => {
+                        // if array consists of this particular filter than remove it
+                        if (selectedCategory?.includes(filters)) {
+                          setSelectedCategory((selectedCategory) =>
+                            arrayRemove(selectedCategory, filters)
+                          );
+                        }
+                        // if array doesnt consists of this particular filter than add it
+                        else {
+                          setSelectedCategory((selectedCategory) => [
+                            ...selectedCategory,
+                            filters,
+                          ]);
+                        }
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        name={filters}
+                        value={filters}
+                        checked={
+                          selectedCategory?.includes(filters) ? true : false
+                        }
+                        onChange={() => {
+                          if (selectedCategory?.includes(filters)) {
+                            setSelectedCategory((selectedCategory) =>
+                              arrayRemove(selectedCategory, filters)
+                            );
+                          } else {
+                            setSelectedCategory((selectedCategory) => [
+                              ...selectedCategory,
+                              filters,
+                            ]);
+                          }
+                        }}
+                      />
+                      <h3 className={`text-sm  text-gray-500 `}>{filters}</h3>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Status */}
+            <div className="flex gap-5 py-4  ">
+              <div className="flex-[0.3]">
+                <h1 className="text-gray-600 text-base">
+                  {filterData[2]?.filterName}
+                </h1>
+              </div>
+              <div className="flex-[0.7]  ">
+                {filterData[2]?.filterOptions?.map((filters, idx) => {
+                  return (
+                    <div
+                      key={idx}
+                      className="p-1  mb-1 w-fit cursor-pointer flex gap-2"
+                      onClick={() => {
+                        if (selectedStatus?.includes(filters)) {
+                          setSelectedStatus([]);
+                        } else {
+                          setSelectedStatus(filters);
+                        }
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        name={filters}
+                        value={filters}
+                        checked={selectedStatus === filters ? true : false}
+                        onChange={() => {
+                          if (selectedStatus?.includes(filters)) {
+                            setSelectedStatus([]);
+                          } else {
+                            setSelectedStatus(filters);
+                          }
+                        }}
+                      />
+                      <h3 className={`text-sm  text-gray-500 `}>{filters}</h3>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
             <div className=" flex justify-end mt-5">
               <button
-                onClick={() => setFilterIsOpen(false)}
+                onClick={() => {
+                  setFilterIsOpen(false);
+                  setSelectedProductFilters([
+                    selectedStock,
+                    ...selectedCategory,
+                    selectedStatus,
+                  ]);
+
+                  console.log("first");
+                  console.log([
+                    selectedStock,
+                    ...selectedCategory,
+                    selectedStatus,
+                  ]);
+                }}
                 className="text-center p-3 font-bold cursor-pointer bg-[#fcedd1] text-[#C57963] text-sm rounded-md active:scale-95 transition"
               >
                 Apply Filters

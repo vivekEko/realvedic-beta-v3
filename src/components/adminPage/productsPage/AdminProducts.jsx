@@ -1,9 +1,13 @@
 // react
-import React from "react";
+import React, { useEffect } from "react";
+
+// Api call
+import axios from "axios";
 
 // State Management (Recoil JS)
 import { useRecoilState } from "recoil";
 import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
+import adminProductListAtom from "../../../recoil/adminPage/productPage/adminProductListAtom";
 // components
 import AdminProductHeader from "../productsPage/AdminProductHeader";
 import ProductList from "./ProductList";
@@ -14,6 +18,25 @@ const AdminProducts = () => {
   const [adminSidebarIsOpen, setAdminSidebarIsOpen] = useRecoilState(
     adminSidebarStatusAtom
   );
+  const [adminProductListApiData, setAdminProductListApiData] =
+    useRecoilState(adminProductListAtom);
+
+  // API call for admin product list
+  useEffect(() => {
+    async function apiCall() {
+      const adminProductList = await axios({
+        method: "post",
+        url: process.env.REACT_APP_BASE_LINK + "/adminProductList",
+        // data: {
+        //   emp_id: localStorage.getItem("emp_id"),
+        // },
+      });
+
+      setAdminProductListApiData(adminProductList?.data);
+    }
+
+    apiCall();
+  }, []);
 
   return (
     <div
@@ -23,10 +46,10 @@ const AdminProducts = () => {
           : "pl-[90px] md:pl-[270px]"
       } `}
     >
-      <AdminProductHeader />
+      <AdminProductHeader apiData={adminProductListApiData} />
       <div>
         <ProductSearchAndFilter />
-        <ProductList />
+        <ProductList apiData={adminProductListApiData} />
       </div>
     </div>
   );

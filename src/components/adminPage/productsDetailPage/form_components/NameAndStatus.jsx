@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import arrow from "../../../../assets/img/adminPage/productPage/bottom_arrow.svg";
 
 const NameAndStatus = () => {
-  const [apiData, setApiData] = useState([
+  const [apiData] = useState([
     {
       data: {
         label: "name",
@@ -43,7 +43,7 @@ const NameAndStatus = () => {
       <div className="flex gap-5 mb-4 ">
         {apiData?.map((data, index) => {
           return (
-            <div>
+            <div key={index}>
               <div className="w-full ">
                 <label
                   htmlFor={data?.data?.label}
