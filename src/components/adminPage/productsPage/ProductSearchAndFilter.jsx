@@ -18,23 +18,12 @@ const ProductSearchAndFilter = () => {
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedStock, setSelectedStock] = useState([]);
 
-  useEffect(() => {
-    console.log("selectedProductFilters:");
-    console.log(selectedProductFilters);
-  }, [selectedProductFilters]);
-
   // Function to remove selected item from an array
   function arrayRemove(arr, value) {
     return arr.filter(function (geek) {
       return geek != value;
     });
   }
-
-  // testing
-  useEffect(() => {
-    console.log("selectedProductFilters:");
-    console.log(selectedProductFilters);
-  }, [selectedProductFilters]);
 
   const filterData = [
     {
@@ -241,13 +230,6 @@ const ProductSearchAndFilter = () => {
                 onClick={() => {
                   setFilterIsOpen(false);
                   setSelectedProductFilters([
-                    selectedStock,
-                    ...selectedCategory,
-                    selectedStatus,
-                  ]);
-
-                  console.log("first");
-                  console.log([
                     selectedStock,
                     ...selectedCategory,
                     selectedStatus,

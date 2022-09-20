@@ -11,7 +11,7 @@ const ProductDetailsEditForm = () => {
     <div className="mt-10 w-full mx-auto ">
       {/* Images */}
       <div className="  flex flex-col gap-5 sm:flex-row">
-        <div className="aspect-square  sm:min-w-[400px] border border-dashed border-black">
+        <div className="aspect-square w-full sm:max-w-[500px] sm:min-w-[400px] border border-dashed border-black">
           {/* <img src={image} alt="" /> */}
         </div>
         <div className="flex gap-5 sm:flex-col">
@@ -22,9 +22,8 @@ const ProductDetailsEditForm = () => {
             {/* <img src={image2} alt="" className="w-[80px] " /> */}
           </div>
         </div>
-
-        <NameAndStatus />
       </div>
+      <NameAndStatus />
     </div>
   );
 };

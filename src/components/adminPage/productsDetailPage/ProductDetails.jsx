@@ -21,9 +21,13 @@ const ProductDetails = () => {
       } `}
     >
       <AdminProductsDetailHeader />
-      <div className="flex flex-col md:flex-row gap-5">
-        <ProductDetailsEditForm />
-        <ProductDetailsEditForm />
+      <div className="flex flex-col md:flex-row gap-5 ">
+        <div className="flex-1">
+          <ProductDetailsEditForm />
+        </div>
+        <div className="flex-1 invisible">
+          <ProductDetailsEditForm />
+        </div>
       </div>
     </div>
   );
