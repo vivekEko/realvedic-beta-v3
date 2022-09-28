@@ -24,11 +24,12 @@ const CategoryPage = () => {
   useEffect(() => {
     if (parameters?.category_id) {
       axios
-        .get(BASE_API_ADDRESS + "categoryPage", {
+        .get(process.env.REACT_APP_BASE_LINK + "/" + "categoryPage", {
           params: { category: parameters?.category_id },
         })
         .then((resp) => {
           setCategoryPageApiData(resp?.data);
+          console.log(resp?.data);
         });
     }
   }, [parameters?.category_id]);
@@ -334,7 +335,11 @@ const CategoryPage = () => {
         </div>
         <div className=" md:flex-1 md:flex  items-end   w-[90%] mx-auto   ">
           <img
-            src={BASE_API_ADDRESS + categoryPageApiData?.cover?.image}
+            src={
+              process.env.REACT_APP_BASE_LINK +
+              "/" +
+              categoryPageApiData?.cover?.image
+            }
             alt={categoryPageApiData?.cover?.name}
             className="mx-auto md:ml-auto  w-[60%] max-w-[300px]"
           />
@@ -353,7 +358,7 @@ const CategoryPage = () => {
               <Link to={"/product/" + data?.name}>
                 <div className="w-full overflow-hidden bg-[#FCEDD1] pt-5 px-5 min-h-[250px] flex justify-center items-end">
                   <img
-                    src={BASE_API_ADDRESS + data?.image}
+                    src={process.env.REACT_APP_BASE_LINK + "/" + data?.image}
                     alt={data?.image}
                     className=" group-hover:scale-110 transition-all w-[60%] mx-auto cursor-pointer"
                   />
@@ -403,7 +408,7 @@ const CategoryPage = () => {
                 <Link to="/product">
                   <div className="w-full overflow-hidden bg-[#FCEDD1] pt-5 px-5 min-h-[250px] flex justify-center items-end">
                     <img
-                      src={BASE_API_ADDRESS + data?.image}
+                      src={process.env.REACT_APP_BASE_LINK + "/" + data?.image}
                       alt={data?.image}
                       className=" group-hover:scale-110 transition-all w-[60%] mx-auto cursor-pointer"
                       onClick={() => {

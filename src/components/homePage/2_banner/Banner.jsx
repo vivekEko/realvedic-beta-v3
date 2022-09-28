@@ -46,7 +46,11 @@ const Banner = () => {
         className=" flex justify-center h-full  items-center w-full  "
       >
         <div className="  mx-1 w-full bg-[#d9d9d9] flex justify-center items-center text-xl text-black ">
-          <img src={BASE_API_ADDRESS + data} alt={data} className="w-full" />
+          <img
+            src={process.env.REACT_APP_BASE_LINK + "/" + data}
+            alt={data}
+            className="w-full"
+          />
         </div>
       </div>
     );
@@ -60,7 +64,11 @@ const Banner = () => {
         className=" flex justify-center h-full  items-center w-full  "
       >
         <div className="  mx-1 w-full bg-[#d9d9d9] flex justify-center items-center text-xl text-black ">
-          <img src={BASE_API_ADDRESS + data} alt={data} className="w-full" />
+          <img
+            src={process.env.REACT_APP_BASE_LINK + "/" + data}
+            alt={data}
+            className="w-full"
+          />
         </div>
       </div>
     );

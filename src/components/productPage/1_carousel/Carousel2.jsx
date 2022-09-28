@@ -53,7 +53,11 @@ const Carousel2 = () => {
           return (
             <div className="hidden md:block">
               <img
-                src={BASE_API_ADDRESS + productPageApiData?.slide[i]}
+                src={
+                  process.env.REACT_APP_BASE_LINK +
+                  "/" +
+                  productPageApiData?.slide[i]
+                }
                 alt=""
               />
             </div>
@@ -67,7 +71,11 @@ const Carousel2 = () => {
               key={index}
               className=" w-[90%] sm:w-[80%] max-w-[600px]   mx-auto  aspect-square  text-3xl px-2 outline-0 bg-[#FCEDD1]"
             >
-              <img src={BASE_API_ADDRESS + data} alt="" className="mx-auto" />
+              <img
+                src={process.env.REACT_APP_BASE_LINK + "/" + data}
+                alt=""
+                className="mx-auto"
+              />
             </div>
           );
         })}

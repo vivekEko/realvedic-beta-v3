@@ -45,7 +45,11 @@ const Category = () => {
                             {data?.name}
                           </h2>
                           <img
-                            src={BASE_API_ADDRESS + data?.image}
+                            src={
+                              process.env.REACT_APP_BASE_LINK +
+                              "/" +
+                              data?.image
+                            }
                             alt={data?.image}
                             className="group-hover:scale-110 transition-all"
                           />
@@ -65,7 +69,11 @@ const Category = () => {
                           </div>
                           <div>
                             <img
-                              src={BASE_API_ADDRESS + data?.image}
+                              src={
+                                process.env.REACT_APP_BASE_LINK +
+                                "/" +
+                                data?.image
+                              }
                               alt={data?.image}
                               className="w-[70px] group-hover:scale-110 transition-all"
                             />

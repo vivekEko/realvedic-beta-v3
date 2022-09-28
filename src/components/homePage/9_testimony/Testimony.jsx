@@ -56,12 +56,12 @@ const Testimony = () => {
         {/* Image with vector*/}
         <div className="relative mx-auto w-fit ">
           <img
-            src={BASE_API_ADDRESS + data?.back}
+            src={process.env.REACT_APP_BASE_LINK + "/" + data?.back}
             alt="..."
             className="w-64  "
           />
           <img
-            src={BASE_API_ADDRESS + data?.front}
+            src={process.env.REACT_APP_BASE_LINK + "/" + data?.front}
             alt="..."
             className="absolute rounded-full w-40   aspect-square z-10 top-[25%]   "
           />

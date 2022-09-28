@@ -8,6 +8,8 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
 import adminProductListAtom from "../../../recoil/adminPage/productPage/adminProductListAtom";
+import adminproductListFilterAtom from "../../../recoil/adminPage/productPage/adminproductListFilterAtom";
+
 // components
 import AdminProductHeader from "../productsPage/AdminProductHeader";
 import ProductList from "./ProductList";
@@ -20,6 +22,8 @@ const AdminProducts = () => {
   );
   const [adminProductListApiData, setAdminProductListApiData] =
     useRecoilState(adminProductListAtom);
+  const [adminProductlistFilterValues, setAdminProductListFilterValues] =
+    useRecoilState(adminproductListFilterAtom);
 
   // API call for admin product list
   useEffect(() => {
@@ -27,16 +31,16 @@ const AdminProducts = () => {
       const adminProductList = await axios({
         method: "post",
         url: process.env.REACT_APP_BASE_LINK + "/adminProductList",
-        // data: {
-        //   emp_id: localStorage.getItem("emp_id"),
-        // },
+        data: {
+          data: adminProductlistFilterValues,
+        },
       });
 
       setAdminProductListApiData(adminProductList?.data);
     }
 
     apiCall();
-  }, []);
+  }, [adminProductlistFilterValues]);
 
   return (
     <div

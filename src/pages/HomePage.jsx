@@ -26,15 +26,15 @@ const HomePage = () => {
     if (sessionStorage?.getItem("selected_category")) {
       sessionStorage?.removeItem("selected_category");
     }
-    axios.get(BASE_API_ADDRESS + "landingPage").then((resp) => {
+    axios.get(process.env.REACT_APP_BASE_LINK + "/landingPage").then((resp) => {
       setLandingPageApiData(resp?.data);
+      console.log(resp?.data);
     });
   }, []);
 
   return (
     <div>
       <SubHeader />
-
       <Nav />
       <Banner />
       <Category />

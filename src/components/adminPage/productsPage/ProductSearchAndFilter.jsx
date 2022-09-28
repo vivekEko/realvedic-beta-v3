@@ -6,17 +6,36 @@ import search from "../../../assets/img/adminPage/productPage/searchIcon.svg";
 import arrow from "../../../assets/img/adminPage/productPage/bottom_arrow.svg";
 import { useRecoilState } from "recoil";
 import SearchInputAtom from "../../../recoil/adminPage/productPage/SearchInputAtom";
+import adminproductListFilterAtom from "../../../recoil/adminPage/productPage/adminproductListFilterAtom";
 
 const ProductSearchAndFilter = () => {
   // Global variables
   const [, setSearchInputs] = useRecoilState(SearchInputAtom);
+  const [adminProductlistFilterValues, setAdminProductListFilterValues] =
+    useRecoilState(adminproductListFilterAtom);
 
   // Local variables
   const [filterIsOpen, setFilterIsOpen] = useState(false);
-  const [selectedProductFilters, setSelectedProductFilters] = useState();
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedStock, setSelectedStock] = useState([]);
+
+  // useEffect(() => {
+  //   async function apiCall() {
+  //     const clockInOut = await axios({
+  //       method: "post",
+  //       url: process.env.REACT_APP_BASE_LINK + "/clockInOut",
+  //       data: {
+  //         emp_id: localStorage.getItem("emp_id"),
+  //         t_type: "",
+  //       },
+  //     });
+
+  //   console.log(first)
+  //   }
+
+  //     apiCall()
+  // }, [adminProductlistFilterValues]);
 
   // Function to remove selected item from an array
   function arrayRemove(arr, value) {
@@ -229,11 +248,11 @@ const ProductSearchAndFilter = () => {
               <button
                 onClick={() => {
                   setFilterIsOpen(false);
-                  setSelectedProductFilters([
+                  setAdminProductListFilterValues({
                     selectedStock,
-                    ...selectedCategory,
+                    selectedCategory,
                     selectedStatus,
-                  ]);
+                  });
                 }}
                 className="text-center p-3 font-bold cursor-pointer bg-[#fcedd1] text-[#C57963] text-sm rounded-md active:scale-95 transition"
               >
