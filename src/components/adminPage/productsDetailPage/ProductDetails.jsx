@@ -5,6 +5,7 @@ import React from "react";
 import { useRecoilState } from "recoil";
 import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
 import AdminProductsDetailHeader from "./AdminProductsDetailHeader";
+import ProductDetailsEditContents from "./ProductDetailsEditContents";
 import ProductDetailsEditForm from "./ProductDetailsEditForm";
 
 const ProductDetails = () => {
@@ -14,19 +15,19 @@ const ProductDetails = () => {
   );
   return (
     <div
-      className={` p-5 w-full transition-all duration-500  h-screen overflow-hidden ${
+      className={` p-5 w-full transition-all duration-500  overflow-hidden ${
         !adminSidebarIsOpen
           ? "pl-[90px] md:pl-[270px]"
           : "pl-[90px] md:pl-[270px]"
       } `}
     >
       <AdminProductsDetailHeader />
-      <div className="flex flex-col md:flex-row gap-5 ">
+      <div className="flex flex-col 2xl:flex-row gap-5 ">
         <div className="flex-1">
           <ProductDetailsEditForm />
         </div>
-        <div className="flex-1 invisible">
-          <ProductDetailsEditForm />
+        <div className="flex-1 ">
+          <ProductDetailsEditContents />
         </div>
       </div>
     </div>
