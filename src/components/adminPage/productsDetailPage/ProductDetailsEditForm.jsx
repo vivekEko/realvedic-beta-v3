@@ -64,21 +64,25 @@ const ProductDetailsEditForm = () => {
         {
           label: "Total fat",
           value: 20,
+          unit: "g",
         },
 
         {
           label: "Protien",
           value: 50,
+          unit: "g",
         },
 
         {
           label: "Carbohydrates",
           value: 2,
+          unit: "g",
         },
 
         {
           label: "Energy",
-          value: 10,
+          value: 250,
+          unit: "kcal",
         },
       ],
       meta_fields: [
