@@ -272,7 +272,7 @@ const ProductList = (props) => {
                   </div>
                   <Link
                     className=" p-3 py-5 flex items-center gap-3 border-b group"
-                    to="/admin/products/productDetails"
+                    to={"/admin/products/productDetails/" + data?.product_name}
                   >
                     <img
                       src={process.env.REACT_APP_BASE_LINK + "/" + data?.image}

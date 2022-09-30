@@ -1,128 +1,31 @@
 // react
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { useState } from "react";
 
 // media files
 import image from "../../../assets/img/productPage/carousel/product1.svg";
 import image2 from "../../../assets/img/productPage/carousel/product2.svg";
 import NameAndStatus from "./form_components/NameAndStatus";
 
-const ProductDetailsEditForm = () => {
-  const statusRef = useRef();
+// icons
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 
-  // Mock data
-  const productDetails = [
-    {
-      name: "Angaya Podi",
-      status: "Out of stock",
-      category: "Spice blends",
-      hsn: "21069099",
-      statusList: ["Out of stock", "In stock"],
-      categoryList: ["Spice Blends", "Flour packs"],
-      variants: [
-        {
-          variantName: "500 g",
-          price: 85,
-          quantity: 48,
-          sku: "RV040101",
-        },
-        {
-          variantName: "1 kg",
-          price: 150,
-          quantity: 9,
-          sku: "RV040102",
-        },
+const ProductDetailsEditForm = (props) => {
+  const [selectedData, setSelectedData] = useState({
+    status: false,
+  });
 
-        {
-          variantName: "2 kg",
-          price: 300,
-          quantity: 5,
-          sku: "RV040103",
-        },
-        {
-          variantName: "3 kg",
-          price: 400,
-          quantity: 12,
-          sku: "RV040104",
-        },
-        {
-          variantName: "5 kg",
-          price: 500,
-          quantity: 2,
-          sku: "RV040105",
-        },
-      ],
+  const [variantsData, setVariantsData] = useState();
 
-      sibling_product: [
-        {
-          product_name: "Nutri Curry Powder",
-          price: 110,
-          image: "image",
-        },
-      ],
+  useEffect(() => {
+    setVariantsData(props?.apiData?.variants);
+  }, [props?.apiData]);
 
-      nutritional_info: [
-        {
-          label: "Total fat",
-          value: 20,
-          unit: "g",
-        },
+  useEffect(() => {
+    console.log("variantsData");
+    console.log(variantsData);
+  }, [variantsData]);
 
-        {
-          label: "Protien",
-          value: 50,
-          unit: "g",
-        },
-
-        {
-          label: "Carbohydrates",
-          value: 2,
-          unit: "g",
-        },
-
-        {
-          label: "Energy",
-          value: 250,
-          unit: "kcal",
-        },
-      ],
-      meta_fields: [
-        {
-          title: "How we make it?",
-          desc: "lorem ipsum",
-        },
-
-        {
-          title: "How to use?",
-          desc: "lorem ipsum",
-        },
-
-        {
-          title: "Ingredients",
-          desc: "lorem ipsum",
-        },
-
-        {
-          title: "What's in it for you?",
-          desc: "lorem ipsum",
-        },
-      ],
-      reviews: [
-        {
-          cust_name: "John Doe",
-          review: "Lorem ipsum",
-        },
-
-        {
-          cust_name: "Alex Bing",
-          review: "Lorem ipsum",
-        },
-        {
-          cust_name: "Ross Gellar",
-          review: "Lorem ipsum",
-        },
-      ],
-    },
-  ];
   return (
     <div className="mt-10 w-full mx-auto ">
       {/* Images */}
@@ -148,56 +51,148 @@ const ProductDetailsEditForm = () => {
           <input
             type="text"
             className="p-2 rounded-md block  border-gray-400 border w-full outline-none"
-            defaultValue={productDetails[0]?.name}
+            defaultValue={props?.apiData?.name}
+            onChange={(e) =>
+              props?.setApiData({ ...props?.apiData, name: e?.target?.value })
+            }
           />
         </div>
 
         {/* Status */}
         <div className="">
-          <label className="text-gray-700 text-sm">Status</label>
-          <select
-            ref={statusRef}
-            className="p-2 rounded-md block border-gray-400 border w-full outline-none "
-            defaultValue={productDetails[0]?.status}
-          >
-            {productDetails[0]?.statusList?.map((data, index) => {
-              return (
-                <option key={data} value={data} className="p-3 ">
-                  {data}
-                </option>
-              );
-            })}
-          </select>
+          <h1 className="text-gray-700 text-sm mb-1">Status</h1>
+
+          <div className="relative  rounded-md  border-gray-400 border w-full outline-none flex justify-between items-center ">
+            <h2
+              className=" p-2 cursor-pointer flex-1"
+              onClick={() =>
+                setSelectedData({
+                  ...selectedData,
+                  status: !selectedData?.status,
+                })
+              }
+            >
+              {props?.apiData?.status}
+            </h2>
+
+            <span
+              onClick={() =>
+                setSelectedData({
+                  ...selectedData,
+                  status: !selectedData?.status,
+                })
+              }
+              className={` text-gray-500 ${
+                selectedData?.status ? "-rotate-180" : "rotate-0"
+              } transition-all `}
+            >
+              <KeyboardArrowDownRoundedIcon />
+            </span>
+
+            <div
+              className={` ${
+                selectedData?.status
+                  ? "max-h-[900px] border border-gray-400  rounded-md mt-2 bg-white shadow-2xl"
+                  : "max-h-0"
+              } transition-all duration-150  ease-in-out absolute  right-0 left-0  top-[99%] overflow-hidden`}
+            >
+              {props?.apiData?.statusList?.map((data, index) => {
+                return (
+                  <h2
+                    key={data}
+                    value={data}
+                    className="p-2 py-3 hover:bg-[#fcedd1] transition-all cursor-pointer"
+                    onClick={() => {
+                      setSelectedData({
+                        ...selectedData,
+                        status: !selectedData?.status,
+                      });
+
+                      props?.setApiData({
+                        ...props?.apiData,
+                        status: data,
+                      });
+                    }}
+                  >
+                    {data}
+                  </h2>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {/* Category */}
         <div className="">
-          <label className="text-gray-700 text-sm">Category</label>
-          <select
-            ref={statusRef}
-            className="p-2 rounded-md block border-gray-400 border w-full outline-none "
-            defaultValue={productDetails[0]?.category}
-          >
-            {productDetails[0]?.categoryList?.map((data, index) => {
-              return (
-                <option key={data} value={data} className="p-3 ">
-                  {data}
-                </option>
-              );
-            })}
-          </select>
+          <h1 className="text-gray-700 text-sm mb-1">Category</h1>
+
+          <div className="relative  rounded-md  border-gray-400 border w-full outline-none flex justify-between items-center ">
+            <h2
+              className=" p-2 cursor-pointer flex-1"
+              onClick={() =>
+                setSelectedData({
+                  ...selectedData,
+                  category: !selectedData?.category,
+                })
+              }
+            >
+              {props?.apiData?.category}
+            </h2>
+
+            <span
+              onClick={() =>
+                setSelectedData({
+                  ...selectedData,
+                  category: !selectedData?.category,
+                })
+              }
+              className={` text-gray-500 ${
+                selectedData?.category ? "-rotate-180" : "rotate-0"
+              } transition-all `}
+            >
+              <KeyboardArrowDownRoundedIcon />
+            </span>
+
+            <div
+              className={` ${
+                selectedData?.category
+                  ? "max-h-[900px] border border-gray-400  rounded-md mt-2 bg-white shadow-2xl"
+                  : "max-h-0"
+              } transition-all duration-150  ease-in-out absolute  right-0 left-0  top-[99%] overflow-hidden`}
+            >
+              {props?.apiData?.categoryList?.map((data, index) => {
+                return (
+                  <h2
+                    key={data}
+                    value={data}
+                    className="p-2 py-3 hover:bg-[#fcedd1] transition-all cursor-pointer"
+                    onClick={() => {
+                      props?.setApiData({
+                        ...props?.apiData,
+                        category: data,
+                      });
+                      setSelectedData({
+                        ...selectedData,
+                        category: !selectedData?.category,
+                      });
+                    }}
+                  >
+                    {data}
+                  </h2>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {/* hsn */}
         <div className="">
-          <label htmlFor="hsn" className="text-gray-700 text-sm">
+          <h1 htmlFor="hsn" className="text-gray-700 text-sm mb-1">
             HSN
-          </label>
-          <input
-            type="number"
-            className="p-2 rounded-md block  border-gray-400 border w-full outline-none"
-            defaultValue={productDetails[0]?.hsn}
-          />
+          </h1>
+          <h1 className="py-2 rounded-md block   w-full outline-none">
+            {props?.apiData?.hsn}
+          </h1>
         </div>
       </div>
       {/* variants */}
@@ -213,7 +208,7 @@ const ProductDetailsEditForm = () => {
         </div>
 
         <div className="h-[200px] overflow-y-scroll py-5 pr-5">
-          {productDetails[0]?.variants?.map((data, index) => {
+          {variantsData?.map((data, index) => {
             return (
               <div key={index} className="grid grid-cols-4 gap-5 mb-5">
                 <h1>{data?.variantName}</h1>
@@ -222,18 +217,60 @@ const ProductDetailsEditForm = () => {
                   <input
                     type="number"
                     defaultValue={data?.price}
+                    onChange={(e) =>
+                      setVariantsData((variantsData) =>
+                        variantsData?.map((obj, idx) => {
+                          if (idx === index) {
+                            return {
+                              ...obj,
+                              price: e?.target?.value,
+                            };
+                          }
+
+                          return obj;
+                        })
+                      )
+                    }
                     className="p-2  block   w-full outline-none"
                   />
                 </div>
                 <input
                   type="number"
                   defaultValue={data?.quantity}
+                  onChange={(e) =>
+                    setVariantsData((variantsData) =>
+                      variantsData?.map((obj, idx) => {
+                        if (idx === index) {
+                          return {
+                            ...obj,
+                            quantity: e?.target?.value,
+                          };
+                        }
+
+                        return obj;
+                      })
+                    )
+                  }
                   className="p-2 rounded-md block  border-gray-400 border w-full outline-none"
                 />
 
                 <input
                   type="text"
                   defaultValue={data?.sku}
+                  onChange={(e) =>
+                    setVariantsData((variantsData) =>
+                      variantsData?.map((obj, idx) => {
+                        if (idx === index) {
+                          return {
+                            ...obj,
+                            sku: e?.target?.value,
+                          };
+                        }
+
+                        return obj;
+                      })
+                    )
+                  }
                   className="p-2 rounded-md block  border-gray-400 border w-full outline-none"
                 />
               </div>
@@ -244,26 +281,75 @@ const ProductDetailsEditForm = () => {
 
       {/* Sibling products */}
       <div className="mt-5">
-        <label className="text-gray-700 text-sm">Sibling product</label>
-        <select
-          ref={statusRef}
-          className="p-2 rounded-md block border-gray-400 border w-full outline-none "
-          defaultValue={productDetails[0]?.sibling_product[0]}
-        >
-          {productDetails[0]?.sibling_product?.map((data, index) => {
-            return (
-              <option
-                key={data?.product_name}
-                value={data?.product_name}
-                className="p-3 "
-              >
-                {data?.product_name}
-                {" | "}
-                {data?.price}
-              </option>
-            );
-          })}
-        </select>
+        <div className="">
+          <h1 className="text-gray-700 text-sm mb-1">Sibling product</h1>
+
+          <div className="relative  rounded-md  border-gray-400 border w-full outline-none flex justify-between items-center ">
+            <h2
+              className=" p-2 cursor-pointer flex-1"
+              onClick={() =>
+                setSelectedData({
+                  ...selectedData,
+                  sibling_product: !selectedData?.sibling_product,
+                })
+              }
+            >
+              {props?.apiData?.sibling_product?.name}
+            </h2>
+
+            <span
+              onClick={() =>
+                setSelectedData({
+                  ...selectedData,
+                  sibling_product: !selectedData?.sibling_product,
+                })
+              }
+              className={` text-gray-500 ${
+                selectedData?.sibling_product ? "-rotate-180" : "rotate-0"
+              } transition-all `}
+            >
+              <KeyboardArrowDownRoundedIcon />
+            </span>
+
+            <div
+              className={` ${
+                selectedData?.sibling_product
+                  ? "max-h-[900px] border border-gray-400  rounded-md mt-2 bg-white shadow-2xl"
+                  : "max-h-0"
+              } transition-all duration-150  ease-in-out absolute  right-0 left-0  bottom-[99%] overflow-hidden`}
+            >
+              {props?.apiData?.productList?.map((data, index) => {
+                return (
+                  <h2
+                    key={data}
+                    value={data}
+                    className="p-2 py-3 hover:bg-[#fcedd1] transition-all cursor-pointer"
+                    // onClick={() => {
+                    //   props?.setApiData((apiData) =>
+                    //     apiData?.sibling_product?.map((obj, idx) => {
+                    //       if (data === idx) {
+                    //         return {
+                    //           ...obj,
+                    //           name: obj?.name,
+                    //         };
+                    //       }
+
+                    //       return obj;
+                    //     })
+                    //   );
+                    //   setSelectedData({
+                    //     ...selectedData,
+                    //     sibling_product: !selectedData?.sibling_product,
+                    //   });
+                    // }}
+                  >
+                    {data}
+                  </h2>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

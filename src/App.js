@@ -76,7 +76,7 @@ function App() {
           <Route exact path="/admin/products" element={<AdminProducts />} />
           <Route
             exact
-            path="/admin/products/productDetails"
+            path="/admin/products/productDetails/:product_id"
             element={<ProductDetails />}
           />
         </Routes>
