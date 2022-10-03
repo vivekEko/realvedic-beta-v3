@@ -10,28 +10,39 @@ import NameAndStatus from "./form_components/NameAndStatus";
 // icons
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 
+// Global variables
+import { useRecoilState } from "recoil";
+import variantsDataAtom from "../../../recoil/adminPage/productDetailsPage/variantsDataAtom";
+
 const ProductDetailsEditForm = (props) => {
+  // Global variables
+  const [variantsData, setVariantsData] = useRecoilState(variantsDataAtom);
+
+  // local variables
   const [selectedData, setSelectedData] = useState({
     status: false,
   });
 
-  const [variantsData, setVariantsData] = useState();
-
   useEffect(() => {
     setVariantsData(props?.apiData?.variants);
   }, [props?.apiData]);
-
-  useEffect(() => {
-    console.log("variantsData");
-    console.log(variantsData);
-  }, [variantsData]);
 
   return (
     <div className="mt-10 w-full mx-auto ">
       {/* Images */}
       <div className="  flex flex-col gap-5 sm:flex-row">
         <div className="aspect-square w-full sm:max-w-[300px] sm:min-w-[200px] border border-dashed border-black">
-          {/* <img src={image} alt="" /> */}
+          {/* {props?.apiData?.images[0] && (
+            <img
+              src={
+                process?.env?.REACT_APP_BASE_LINK +
+                "/" +
+                props?.apiData?.images[0]
+              }
+              alt="product Image"
+              className=""
+            />
+          )} */}
         </div>
         <div className="flex gap-5 sm:flex-col">
           <div className="aspect-square max-h-[80px] w-[80px] border border-dashed border-black">
@@ -51,7 +62,8 @@ const ProductDetailsEditForm = (props) => {
           <input
             type="text"
             className="p-2 rounded-md block  border-gray-400 border w-full outline-none"
-            defaultValue={props?.apiData?.name}
+            defaultValue=""
+            value={props?.apiData?.name}
             onChange={(e) =>
               props?.setApiData({ ...props?.apiData, name: e?.target?.value })
             }
@@ -280,7 +292,7 @@ const ProductDetailsEditForm = (props) => {
       </div>
 
       {/* Sibling products */}
-      <div className="mt-5">
+      {/* <div className="mt-5">
         <div className="">
           <h1 className="text-gray-700 text-sm mb-1">Sibling product</h1>
 
@@ -350,7 +362,7 @@ const ProductDetailsEditForm = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

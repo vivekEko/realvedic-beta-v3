@@ -1,18 +1,27 @@
+// react Js
 import React, { useEffect, useState } from "react";
 
-// Icons
+// State management (recoil Js)
+import { useRecoilState } from "recoil";
+import metaDataAtom from "../../../recoil/adminPage/productDetailsPage/metaDataAtom";
+import nutritionalDataAtom from "../../../recoil/adminPage/productDetailsPage/nutritionalDataAtom";
 
+// Icons
 const ProductDetailsEditContents = (props) => {
+  // Global variables
+  const [metaData, setMetaData] = useRecoilState(metaDataAtom);
+  const [nutritionalData, setNutritionalData] =
+    useRecoilState(nutritionalDataAtom);
+
   //  local variables
   const [selectedMetaField, setSelectedMetaField] = useState();
-  const [metaData, setMetaData] = useState();
-  const [nutritionalData, setNutritionalData] = useState();
 
   useEffect(() => {
     setSelectedMetaField(0);
     setMetaData(props?.apiData?.meta_field);
     setNutritionalData(props?.apiData?.nutritional_info);
 
+    console.log("apiData");
     console.log(props?.apiData);
   }, [props?.apiData]);
 
@@ -30,25 +39,21 @@ const ProductDetailsEditContents = (props) => {
                   <input
                     type="text"
                     className="p-2  w-full outline-none"
-                    defaultValue={data?.value}
-                    // onChange={
-                    //   () => {
-                    //     props?.setApiData(prevState => {
-                    //       const newState = prevState.map(obj => {
-                    //         // 👇️ if id equals 2, update country property
-                    //         if (obj.id === 2) {
-                    //           return {...obj, country: 'Denmark'};
-                    //         }
+                    defaultValue={nutritionalData?.[index]?.value}
+                    onChange={(e) =>
+                      setNutritionalData((nutritionalData) =>
+                        nutritionalData?.map((nutriData, idx) => {
+                          if (index === idx) {
+                            return {
+                              ...nutriData,
+                              value: e?.target?.value,
+                            };
+                          }
 
-                    //         // 👇️ otherwise return object as is
-                    //         return obj;
-                    //       });
-
-                    //       return newState;
-                    //     });
-                    //   };
-                    //   }
-                    // }
+                          return nutriData;
+                        })
+                      )
+                    }
                   />
                   <span>{data?.unit}</span>
                 </div>

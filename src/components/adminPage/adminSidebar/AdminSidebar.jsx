@@ -97,7 +97,7 @@ const AdminSidebar = () => {
                   <div
                     className={`h-[35px] w-[5px] rounded-lg bg-[#c57963] absolute right-0 top-0 bottom-0 ${
                       activeLink === data?.link_path ||
-                      activeLink === data?.sub_link
+                      activeLink?.includes(data?.sub_link)
                         ? "group-hover:visible"
                         : "invisible"
                     }   transition`}

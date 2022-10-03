@@ -5,19 +5,21 @@ import { useParams } from "react-router-dom";
 
 // State Management (Recoil JS)
 import { useRecoilState } from "recoil";
-import adminSidebarStatusAtom from "../../../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
-import AdminProductsDetailHeader from "./AdminProductsDetailHeader";
-import ProductDetailsEditContents from "./ProductDetailsEditContents";
-import ProductDetailsEditForm from "./ProductDetailsEditForm";
+import adminSidebarStatusAtom from "../recoil/adminPage/adminSidebar/adminSidebarStatusAtom";
+import productDetailsApiAtom from "../recoil/adminPage/productDetailsPage/productDetailsApiAtom";
+import AdminProductsDetailHeader from "../components/adminPage/productsDetailPage/AdminProductsDetailHeader";
+import ProductDetailsEditContents from "../components/adminPage/productsDetailPage/ProductDetailsEditContents";
+import ProductDetailsEditForm from "../components/adminPage/productsDetailPage/ProductDetailsEditForm";
 
-const ProductDetails = () => {
+const AdminProductDetails = () => {
   // Global variables
   const [adminSidebarIsOpen, setAdminSidebarIsOpen] = useRecoilState(
     adminSidebarStatusAtom
   );
 
+  const [apiData, setApiData] = useRecoilState(productDetailsApiAtom);
+
   // Local variables
-  const [apiData, setApiData] = useState({});
 
   // Detecting parameters
   const parameters = useParams();
@@ -64,4 +66,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default AdminProductDetails;

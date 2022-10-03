@@ -22,7 +22,7 @@ import homePageStatusAtom from "./recoil/misc/homePageStatusAtom";
 import Admin from "./pages/Admin";
 import AdminProducts from "./components/adminPage/productsPage/AdminProducts";
 import AdminSidebar from "./components/adminPage/adminSidebar/AdminSidebar";
-import ProductDetails from "./components/adminPage/productsDetailPage/ProductDetails";
+import AdminProductDetails from "./pages/AdminProductDetails";
 
 function App() {
   //   Global variable
@@ -77,7 +77,7 @@ function App() {
           <Route
             exact
             path="/admin/products/productDetails/:product_id"
-            element={<ProductDetails />}
+            element={<AdminProductDetails />}
           />
         </Routes>
       </div>
