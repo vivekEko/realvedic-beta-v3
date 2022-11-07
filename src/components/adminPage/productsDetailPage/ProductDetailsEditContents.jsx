@@ -20,9 +20,6 @@ const ProductDetailsEditContents = (props) => {
     setSelectedMetaField(0);
     setMetaData(props?.apiData?.meta_field);
     setNutritionalData(props?.apiData?.nutritional_info);
-
-    console.log("apiData");
-    console.log(props?.apiData);
   }, [props?.apiData]);
 
   return (

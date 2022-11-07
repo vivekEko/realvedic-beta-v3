@@ -523,11 +523,11 @@ const ProductPage = () => {
             return (
               <div key={index} className="group">
                 <Link to={"/product/" + data?.name}>
-                  <div className="w-full overflow-hidden bg-[#FCEDD1] pt-5 px-5 min-h-[250px] flex justify-center items-end">
+                  <div className="w-full overflow-hidden bg-[#FCEDD1]  min-h-[250px] flex justify-center items-end">
                     <img
                       src={process.env.REACT_APP_BASE_LINK + "/" + data?.image}
                       alt={data?.image}
-                      className=" group-hover:scale-110 transition-all w-[60%] mx-auto cursor-pointer"
+                      className=" group-hover:scale-110 transition-all w-full mx-auto cursor-pointer"
                     />
                   </div>
 

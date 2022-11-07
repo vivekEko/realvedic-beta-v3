@@ -13,10 +13,18 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 // Global variables
 import { useRecoilState } from "recoil";
 import variantsDataAtom from "../../../recoil/adminPage/productDetailsPage/variantsDataAtom";
+import BASE_API_ADDRESS from "../../../misc/baseAddress/BaseAPIAddress";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import productImageUploadAtom from "../../../recoil/adminPage/productDetailsPage/productImageUploadAtom";
 
 const ProductDetailsEditForm = (props) => {
   // Global variables
   const [variantsData, setVariantsData] = useRecoilState(variantsDataAtom);
+  const [selectedImage, setSelectedImage] = useRecoilState(
+    productImageUploadAtom
+  );
+  const [imagesLength, setImagesLength] = useState();
+  const [imageArray, setImageArray] = useState(null);
 
   // local variables
   const [selectedData, setSelectedData] = useState({
@@ -25,32 +33,90 @@ const ProductDetailsEditForm = (props) => {
 
   useEffect(() => {
     setVariantsData(props?.apiData?.variants);
+    setImagesLength(props?.apiData?.images?.length);
+    setImageArray(props?.apiData?.images);
   }, [props?.apiData]);
+
+  useEffect(() => {
+    if (imageArray) {
+      props?.setApiData({ ...props?.apiData, images: imageArray });
+    }
+  }, [imageArray]);
 
   return (
     <div className="mt-10 w-full mx-auto ">
       {/* Images */}
       <div className="  flex flex-col gap-5 sm:flex-row">
-        <div className="aspect-square w-full sm:max-w-[300px] sm:min-w-[200px] border border-dashed border-black">
-          {/* {props?.apiData?.images[0] && (
+        <div className="aspect-square w-full sm:max-w-[300px] sm:min-w-[200px] border border-dashed border-gray-500">
+          {props?.apiData?.images?.map((data, index) => {
+            if (index === 0) {
+              return (
+                <div key={index}>
+                  <img
+                    src={process.env.REACT_APP_BASE_LINK + "/" + data}
+                    alt=""
+                    className="w-full"
+                  />
+                </div>
+              );
+            }
+          })}
+
+          {/* {props?.apiData?.images ? (
             <img
               src={
-                process?.env?.REACT_APP_BASE_LINK +
+                process.env.REACT_APP_BASE_LINK +
                 "/" +
                 props?.apiData?.images[0]
               }
-              alt="product Image"
-              className=""
+              alt=""
+              className="w-full "
             />
+          ) : (
+            <label className=" relative aspect-square max-h-[80px] w-[80px] border border-dashed border-gray-300 flex justify-center items-center cursor-pointer">
+              <input
+                type="file"
+                className="absolute top-0 bottom-0 left-0 right-0 hidden "
+                accept="image/*"
+              />
+              <AddRoundedIcon fontSize="large" className="text-gray-300" />
+            </label>
           )} */}
         </div>
-        <div className="flex gap-5 sm:flex-col">
-          <div className="aspect-square max-h-[80px] w-[80px] border border-dashed border-black">
-            {/* <img src={image2} alt="" className="w-[80px] " /> */}
-          </div>
-          <div className="aspect-square max-h-[80px] w-[80px] border border-dashed border-black">
-            {/* <img src={image2} alt="" className="w-[80px] " /> */}
-          </div>
+        <div className="flex gap-5 flex-wrap items-start ">
+          {props?.apiData?.images?.map((data, index) => {
+            if (index != 1) {
+              return (
+                <div
+                  key={index}
+                  className="aspect-square max-h-[80px] w-[80px] border border-dashed border-gray-500"
+                >
+                  <img
+                    src={process.env.REACT_APP_BASE_LINK + "/" + data}
+                    alt=""
+                    className="w-full "
+                  />
+                </div>
+              );
+            }
+          })}
+
+          {imagesLength >= 3 ? (
+            <label className=" relative aspect-square max-h-[80px] w-[80px] border border-dashed border-gray-300 flex justify-center items-center cursor-pointer">
+              <input
+                type="file"
+                className="absolute top-0 bottom-0 left-0 right-0 hidden "
+                accept="image/*"
+                onChange={(event) => {
+                  console.log(event?.target?.files[0]);
+                  setImageArray([...imageArray, event?.target?.files[0]]);
+                }}
+              />
+              <AddRoundedIcon fontSize="large" className="text-gray-300" />
+            </label>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       {/* <NameAndStatus /> */}
@@ -62,7 +128,6 @@ const ProductDetailsEditForm = (props) => {
           <input
             type="text"
             className="p-2 rounded-md block  border-gray-400 border w-full outline-none"
-            defaultValue=""
             value={props?.apiData?.name}
             onChange={(e) =>
               props?.setApiData({ ...props?.apiData, name: e?.target?.value })

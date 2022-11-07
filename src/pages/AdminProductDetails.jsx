@@ -26,6 +26,7 @@ const AdminProductDetails = () => {
 
   // Api call for product page
   useEffect(() => {
+    setApiData(null);
     if (parameters?.product_id) {
       axios
         .post(process.env.REACT_APP_BASE_LINK + "/" + "adminProductDetail", {

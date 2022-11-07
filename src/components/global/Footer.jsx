@@ -1,5 +1,6 @@
 // React
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 // Media Files
 import arrow from "../../assets/img/landingPage/footer/down-arrow.svg";
@@ -13,15 +14,18 @@ const Footer = () => {
       contents: [
         {
           linkName: "The Realvedic Story",
+          linkTo: "/about_us",
         },
         {
           linkName: "Online Doctor Appointment",
         },
         {
           linkName: "Return, Refund and Cancellation Policy",
+          linkTo: "/returnPolicy",
         },
         {
           linkName: "Terms  & Conditions",
+          linkTo: "/terms&Conditions",
         },
         {
           linkName: "Privacy Policy",
@@ -113,7 +117,11 @@ const Footer = () => {
                           />
                         ) : (
                           <h1 className="hover:underline underline-offset-4 cursor-pointer transition">
-                            {links?.linkName}
+                            {links?.linkTo ? (
+                              <Link to={links?.linkTo}>{links?.linkName}</Link>
+                            ) : (
+                              links?.linkName
+                            )}
                           </h1>
                         )}
                       </div>
@@ -161,9 +169,15 @@ const Footer = () => {
                         ) : (
                           <div className="mb-1">
                             <h1 className="hover:underline underline-offset-4 cursor-pointer transition">
-                              {links?.linkName === instagram
-                                ? " "
-                                : links?.linkName}
+                              {links?.linkName === instagram ? (
+                                " "
+                              ) : links?.linkTo ? (
+                                <Link to={links?.linkTo}>
+                                  {links?.linkName}
+                                </Link>
+                              ) : (
+                                links?.linkName
+                              )}
                             </h1>
                           </div>
                         )}

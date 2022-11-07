@@ -14,8 +14,6 @@ import rightArrow from "../../../assets/img/landingPage/banner/right_arrow.png";
 // State management (Recoil JS)
 import { useRecoilState } from "recoil";
 import productPageAtom from "../../../recoil/productPage/productPageAtom";
-import BASE_API_ADDRESS from "../../../misc/baseAddress/BaseAPIAddress";
-import { useEffect } from "react";
 
 const PreviousBtn = (props) => {
   // console.log(props);
@@ -69,12 +67,12 @@ const Carousel2 = () => {
           return (
             <div
               key={index}
-              className=" w-[90%] sm:w-[80%] max-w-[600px]   mx-auto  aspect-square  text-3xl px-2 outline-0 bg-[#FCEDD1]"
+              className=" w-[90%] sm:w-[80%] max-w-[600px]   mx-auto  aspect-square  text-3xl  outline-0 "
             >
               <img
                 src={process.env.REACT_APP_BASE_LINK + "/" + data}
                 alt=""
-                className="mx-auto"
+                className="mx-auto w-full"
               />
             </div>
           );

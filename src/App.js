@@ -23,6 +23,8 @@ import Admin from "./pages/Admin";
 import AdminProducts from "./components/adminPage/productsPage/AdminProducts";
 import AdminSidebar from "./components/adminPage/adminSidebar/AdminSidebar";
 import AdminProductDetails from "./pages/AdminProductDetails";
+import CancellationPolicy from "./pages/CancellationPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 function App() {
   //   Global variable
@@ -78,6 +80,12 @@ function App() {
             exact
             path="/admin/products/productDetails/:product_id"
             element={<AdminProductDetails />}
+          />
+          <Route exact path="/returnPolicy" element={<CancellationPolicy />} />
+          <Route
+            exact
+            path="/terms&Conditions"
+            element={<TermsAndConditions />}
           />
         </Routes>
       </div>
